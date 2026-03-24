@@ -4,7 +4,7 @@
 </script>
 
 <div class="flex flex-row items-center justify-between p-1.5 border-b border-b-gray-500">
-	<a href="/"><img src={logo} alt="Placeholder" class="flex-1 h-20 w-auto" /></a>
+	<a href="/"><img src={logo} alt="Placeholder" class="flex-1 h-20 w-auto rounded-2xl" /></a>
 
 	<div class="flex flex-row">
 		<NavItem href="/" text="Tasks"></NavItem>
