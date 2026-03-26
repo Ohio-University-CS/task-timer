@@ -69,8 +69,6 @@
 
             summation += (Number(gradeData[i].score) * Number(gradeData[i].weight) / 100);
             remainingWeight -= Number(gradeData[i].weight);
-
-            console.log("Summation: " + summation);
         }
 
         showCalculation = true;
