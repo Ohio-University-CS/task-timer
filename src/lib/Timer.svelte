@@ -1,33 +1,28 @@
 <script lang="ts">
 
-
-  let { timer } = $props()
+  let { timer, timeUp, timeAdd } = $props()
   let paused = $state(true)
+
+  // for testing, use this time var
   // let timer = $state(27165000) // parameter placeholder
-  // need to make sound / notification for done in future 
 
-// accessors cause runes are weird
-  const is_paused = () => {return paused} 
-  const get_time = () => {return timer}
-
-	let now = Date.now() // where timer starts
-	let later = now + get_time()
-
-// mutators
   function toggle_pause() { paused = !paused }
-
+ 
  $effect(() => {
-    if (!paused && timer > 0) { // only countdown if unpaused
+    if (!paused && timer > 0) { // countdown
       const interval = window.setInterval(() => {
         timer -= 125; // remove 1/4 a second
       }, 125); // for every 1/4 a second
 
       return () => clearInterval(interval);
     }
+    else if (timer <= 0) { // alarm / notify
+      {timeUp}
+    }
   });
 
-  // OUTPUT
 
+  // OUTPUT
   // weird situational floor helper function
   function floor (number) { return number = number - number%1 }
 
@@ -63,6 +58,10 @@
       Pause
     {/if}  
   </button>
+  {#if paused}
+    <button onclick={timeAdd}>Add Time</button>
+  {/if}
+
 </div>
 
 
