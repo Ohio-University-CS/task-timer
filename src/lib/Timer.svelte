@@ -1,35 +1,44 @@
 <script lang="js">
-import { msToHr, msToMin, msToSec, toggle } from './timer_functions.svelte.js';
-// declare variables 
-  let { timer } = $props()
+  import { msToHr, msToMin, msToSec, toggle } from './timer_functions.svelte.js';
+
+  // pass props timer in ms and external functions
+  let { timer, timeUp, timeAdd } = $props()
   let paused = $state(true)
-  // let timer = $state(27165000) // parameter placeholder
+  let done = $state(false) // for timeUp
 
-// accessors cause runes are weird
-  const is_paused = () => {return paused} 
-  const get_time = () => {return timer}
+  // countdown logic
+  $effect(() => {
+      if (!paused && timer > -1) { // countdown past 0 to eval done
+      
+        const interval = window.setInterval(() => {
+          timer -= 125; // remove 1/4 a second
+        }, 125); // for every 1/4 a second
 
-	let now = Date.now() // where timer starts
-	let later = now + get_time()
+        if (timer <= 0) {done = true} // cheat user out of 1/4th a second to achieve functioning timer alarm
 
-// mutators
+        return () => clearInterval(interval);
+      }
+    });
 
- $effect(() => {
-    if (!paused && timer > 0) { // only countdown if unpaused
-      const interval = window.setInterval(() => {
-        timer -= 125; // remove 1/4 a second
-      }, 125); // for every 1/4 a second
-
-      return () => clearInterval(interval);
-    }
-  });
+  // effects for ending and resetting countdown
+  $effect(()=> { if(done) { timeUp() } });
+  $effect(()=> { if(done && timer > 0) {done = !done} });
 
 </script>
 
-<div class="flex flex-col">
-	<h1>{msToHr(timer)}:{msToMin(timer)}:{msToSec(timer)}</h1>
-	
-  <button onclick={toggle(pause)}>
+
+
+<div>
+  <!-- cant remember which style so keeping both for now -->
+  <!-- <div class="flex flex-col"> -->
+  <!--   <h1>{msToHr(timer)}:{msToMin(timer)}:{msToSec(timer)}</h1> -->
+  <!-- </div> -->
+
+  <div class="timer_outline">
+    <p>{ms_to_hr(timer)}:{ms_to_min(timer)}:{ms_to_sec(timer)}</p>
+  </div>
+
+  <button onclick={toggle(pause)} class="custom_button">
     {#if paused}
       Resume
     {:else }
@@ -37,7 +46,24 @@ import { msToHr, msToMin, msToSec, toggle } from './timer_functions.svelte.js';
     {/if}  
   </button>
 
+  {#if paused}
+    <button onclick={timeAdd} class="custom_button">Add Time</button>
+  {/if}
 </div>
 
 
-<!-- styles go here -->
+<style>
+  .timer_outline {
+  outline-style: solid;
+  font-size: var(--text-7xl);
+  border-radius: var(--radius-lg);
+  margin: calc(var(--spacing) * 3);
+  }
+
+  .custom_button{
+  border-radius: var(--radius-lg);
+  outline-style: solid;
+  margin: calc(var(--spacing) * 2);
+  }
+
+</style>
