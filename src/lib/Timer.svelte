@@ -1,5 +1,5 @@
 <script lang="js">
-  import { msToHr, msToMin, msToSec, toggle } from './timer_functions.svelte.js';
+  import { msToHr, msToMin, msToSec} from './timer_functions.svelte.js';
 
   // pass props timer in ms and external functions
   let { timer, timeUp, timeAdd } = $props()
@@ -35,10 +35,10 @@
   <!-- </div> -->
 
   <div class="timer_outline">
-    <p>{ms_to_hr(timer)}:{ms_to_min(timer)}:{ms_to_sec(timer)}</p>
+    <p>{msToHr(timer)}:{msToMin(timer)}:{msToSec(timer)}</p>
   </div>
 
-  <button onclick={toggle(pause)} class="custom_button">
+  <button onclick={paused = !paused} class="custom_button">
     {#if paused}
       Resume
     {:else }
