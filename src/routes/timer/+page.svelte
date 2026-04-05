@@ -1,17 +1,18 @@
 <script>
   import Button from "$lib/Button.svelte";
   import Timer from "$lib/Timer.svelte";
-  // import clock from "../../lib/assets/clock.png"
-  
-  let test = $state(false)
-  let timer = $state(5000)
 
-  function timeUp() { // isssue in component afaict
-    test = true 
-  } 
+  let timer = 3000
+  let done = false
 
-  function timeAdd() { //isn't adding to countdown, only to init timer
-    timer=timer + 10000
+  function timeAdd() {
+    timer += 10000
+    done = false
+  }
+
+  function timeUp() {
+    timer = 0;
+    done = true
   }
 
 </script>
@@ -28,35 +29,32 @@
 
 
   <!-- focused timer -->
-  <div class="m-5 outline-double rounded">
+  <div class="m-5 outline-double rounded w-7e/10">
     <!-- invisible, for timer elements -->
-    <div class="m-3 grid grid-cols-2 outline-hidden"> 
+    <div class="m-3e grid grid-cols-2 outline-hidden"> 
       <!-- left -->
       <div class="m-2 outline-dotted">
-        {#if test}
-          <p>time up</p>
-        {:else}
-          <p>time not up</p>
-        {/if}
         <div class="m-5 outline-hidden rounded">
-          <Timer {timer} {timeUp} {timeAdd}/>
-          <!-- <p class="text-8xl">00:00:00</p> -->
-          <!-- <Button text="Play"/> -->
-          <!-- <Button text="Add Time"/> -->
+          <Timer {timer} {timeAdd} {timeUp}/>
+          {#if done}
+            <p>(external) it done</p>
+          {/if}
         </div>
       </div>
       <!-- right -->
       <div class="m-2 outline-dotted">	
-        <div class="m-2 outline-solid rounded">
+        <div class="m-2e outline-solid rounded">
           <h1 class="text-2xl">TASK NAME</h1>
         </div> 
-        <div class="m-5 outline-solid">
+        <div class="m-5e outline-solid">
           <h2>3/4/26</h2>
           <h2>DESC</h2>
         </div>
       </div>
     </div>
   </div>
+
+
 
 
   <div class="m-5 outline-double rounded">
@@ -67,4 +65,7 @@
     </div>
   </div>
 </div>
+
+
+
 
