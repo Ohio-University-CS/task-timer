@@ -2,14 +2,23 @@
 	//Randomly chosen initial values
 	let weight = 120;
 	let selectedTask = "Task1";
+	let selectedIntake = "Coffee";
 	let caffeineNeeded = 0;
+	let cupsOfDrink = 0;
 
-	//Can I use Load tasks here?
+	//No use for this yet, but it is being updated
+	let avgIntake = null;
+
 	//NEED TO MAKE AN (AI?) ALGORITHM FOR THE MULT CALCULATION BASED OFF OF LABEL
 	let tasks = [
 		{ title: "Task1", label: "Task 1", mult: 1.5 },
 		{ title: "Task2", label: "Task 2", mult: 3 },
 		{ title: "Task3", label: "Task 3", mult: 6 }
+	];
+	let intake = [
+		{ title: "Coffee", label: "Cups of Coffee", concentration: 90 },
+		{ title: "Redbull", label: "Redbulls", concentration: 111 },
+		{ title: "Soda", label: "Cans of Soda", concentration: 40 }
 	];
 
 	//Collects the selected task
@@ -21,6 +30,16 @@
 			caffeineNeeded = Math.round(weight * activeTask.mult);
 		} else {
 			caffeineNeeded = 0;
+		}
+	}
+
+	$: activeCup = intake.find(f => f.title === selectedIntake);
+
+	$: {
+		if (activeCup) {
+			cupsOfDrink = Number.parseFloat(caffeineNeeded / activeCup.concentration).toFixed(2);
+		} else {
+			cupsOfDrink = 0;
 		}
 	}
 </script>
@@ -38,7 +57,7 @@
 		</div>
 
 		<!-- Fancy mid section that has the weight drag bar -->
-		<div class="p-6 space-y-6 flex-grow overflow-y-auto">
+		<div class="p-6 space-y-9 flex-grow overflow-y-auto">
 
 			<!-- More formatting, AI had to teach me about space-y-3 :/ -->
 			<div class="space-y-3">
@@ -72,6 +91,25 @@
 
 			</div>
 
+			<!-- Section that has choice of intake and average amount of caffeine you normally have -->
+			<div class="space-y-3 flex flex-col">
+				<div class="relative w-full">
+					<label for="intake-select" class="text-[10px] font-bold text-stone-300 uppercase tracking-widest">Intake Selector</label>
+
+					<!-- Allows the user to select their preferred method of intake -->
+					<div class="flex gap-3">
+						<select id="intake-select" bind:value={selectedIntake} class="w-3/4 p-3 bg-white/5 border border-white/10 rounded-lg appearance-none focus:outline-none text-white text-sm font-medium transition-all">
+							{#each intake as item}
+								<option value={item.title} class="bg-[#4a3b28] text-white">{item.title} : {item.concentration} mg per</option>
+							{/each}
+						</select>
+
+						<!-- Allows the user to input how much they normally drink in a day -->
+						<input type="number" bind:value={avgIntake} class="ml-3 w-full h-12 rounded-lg focus:outline-none bg-white/5 border-white/10 text-white placeholder-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" placeholder="Average Intake per Day">
+					</div>
+				</div>
+			</div>
+
 		</div>
 
 		<!-- The bottom fancy part. Took a while to make this look good. Styling is so annoying -->
@@ -82,6 +120,8 @@
 
 			<!-- The actual calculated amount of caffeine needed. I just have a simple weight * mult factor right now -->
 			<div class="text-5xl font-black text-white tracking-tighter">{caffeineNeeded}<span class="text-xl font-light ml-1 text-amber-400/80 uppercase">mg</span></div>
+
+			<div class="text-sm font-black text-amber-400">{cupsOfDrink}<span class="text-xs text-stone-300 pl-1">{activeCup.label}</span></div>
 
 		</div>
 
