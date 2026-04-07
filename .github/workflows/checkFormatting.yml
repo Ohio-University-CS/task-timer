@@ -1,0 +1,23 @@
+name: Check Code Formatting
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  format:
+    runs-on: macos-26
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+    
+      - name: Install npm
+        run: npm ci
+
+      - name: Check format code
+        run: npx prettier --check .
+

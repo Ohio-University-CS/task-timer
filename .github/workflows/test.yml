@@ -1,0 +1,21 @@
+name: test Runner
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  testing:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+    
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v6.3.0
+        
+      - name: Installs npm
+        run: npm ci
+
+      - name: Runs the tests
+        run: npx vitest
