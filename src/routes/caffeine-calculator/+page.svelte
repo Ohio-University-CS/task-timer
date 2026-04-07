@@ -33,8 +33,10 @@
 		}
 	}
 
+	//Finds the current choice of intake
 	$: activeCup = intake.find(f => f.title === selectedIntake);
 
+	//Calculates how many cups of their chosen drink they would need
 	$: {
 		if (activeCup) {
 			cupsOfDrink = Number.parseFloat(caffeineNeeded / activeCup.concentration).toFixed(2);
