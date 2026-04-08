@@ -7,6 +7,7 @@ export function floor(number) {
 }
 
 export function msToHr(ms) {
+  if (ms < 0) return -1;
   return floor(ms / 3600000);
 }
 
@@ -16,6 +17,7 @@ export function msToMin(ms){
 
 }
 export function msToSec(ms){
+  if (ms < 0) return -1;
   const sec = floor((ms % 60000) / 1000);
   return sec < 10 ? `0${sec}` : sec; // '0{}' is to keep 2 digit formatting
 }

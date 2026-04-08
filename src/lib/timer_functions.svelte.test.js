@@ -51,7 +51,7 @@ test('msToHr Error', () => {
   let timer = -3600000
   let hours = msToHr(timer) 
 
-  expect(hours).toEqual('00')
+  expect(hours).toEqual(-1)
 });
 
 
@@ -68,7 +68,7 @@ test('msToMin Edge', () => {
   let timer = 60000
   let mins = msToMin(timer) 
 
-  expect(mins).toEqual(1)
+  expect(mins).toEqual("01")
 });
 
 // test for negative timer (unrealisitc)
@@ -90,9 +90,9 @@ test('msToSec Main', () => {
 
 test('msToSec Edge', () => {
   let timer = 1000
-  let secs = msToMin(timer) 
+  let secs = msToSec(timer) 
 
-  expect(secs).toEqual(1)
+  expect(secs).toEqual("01")
 });
 
 // test for negative timer (unrealisitc)
@@ -100,7 +100,7 @@ test('msToSec Error', () => {
   let timer = -3600000
   let secs = msToSec(timer) 
 
-  expect(secs).toEqual('00')
+  expect(secs).toEqual(-1)
 });
 
 // removed toggle with toggle tests, was not function worthy

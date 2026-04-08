@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/svelte';
 import { describe, it, expect } from 'vitest';
-import '@testing-library/jest-dom';
+
 import Navbar from '../src/lib/Navbar.svelte';
 
 describe('Navbar Component', () => {
@@ -10,6 +10,7 @@ describe('Navbar Component', () => {
     render(Navbar);
     const logo = screen.getByAltText('Placeholder');
     expect(logo).toBeInTheDocument();
+    
     // Verifies the image tag has the Tailwind sizing classes from your code
     expect(logo).toHaveClass('h-20', 'w-auto');
   });
