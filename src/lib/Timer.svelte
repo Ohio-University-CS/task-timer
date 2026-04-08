@@ -1,10 +1,16 @@
 <script lang="js">
   import { msToHr, msToMin, msToSec} from './timer_functions.svelte.js';
+  import audioPath from '$lib/sounds/alarm.mp3';
 
   // pass props timer in ms and external functions
-  let { timer, timeUp, timeAdd } = $props()
-  let paused = $state(true)
-  let done = $state(false) // for timeUp
+  let { timer, timeUp } = $props();
+  let paused = $state(true);
+  let done = $state(false); // for timeUp
+  let audio;
+
+  $effect(() => {
+    audio = new Audio(audioPath);
+  });
 
   // countdown logic
   $effect(() => {
@@ -14,19 +20,29 @@
           timer -= 125; // remove 1/4 a second
         }, 125); // for every 1/4 a second
 
-        if (timer <= 0) {done = true} // cheat user out of 1/4th a second to achieve functioning timer alarm
-
         return () => clearInterval(interval);
       }
     });
 
   // effects for ending and resetting countdown
-  $effect(()=> { if(done) { timeUp() } });
-  $effect(()=> { if(done && timer > 0) {done = !done} });
+  $effect(()=> {
+    if(timer <= 0 && !done) {
+      done = true;
+      paused = true;
+      audio?.play();
+      timeUp();
+    }
+  });
+
+  $effect(()=> { if(done && timer > 0) {done = false} });
+
+  function timeAdd() {
+    timer += 300000;
+
+    if (timer > 0) {done = false;}
+  }
 
 </script>
-
-
 
 <div>
   <!-- cant remember which style so keeping both for now -->
@@ -38,7 +54,7 @@
     <p>{msToHr(timer)}:{msToMin(timer)}:{msToSec(timer)}</p>
   </div>
 
-  <button onclick={paused = !paused} class="custom_button">
+  <button onclick={() => paused = !paused} class="custom_button">
     {#if paused}
       Resume
     {:else }
