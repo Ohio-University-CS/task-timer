@@ -17,7 +17,7 @@
     <div class="flex flex-row justify-between w-full">
         {optionName}
 
-        <button onclick={toggleDropdown}>&#8615;</button>
+        <button class="cursor-pointer" onclick={toggleDropdown}>&#8615;</button>
     </div>
     
 
