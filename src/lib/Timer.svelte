@@ -3,7 +3,7 @@
   import audioPath from '$lib/sounds/alarm.mp3';
 
   // pass props timer in ms and external functions
-  let { timer, timeUp } = $props();
+  let { timer, timeAdd, timeUp } = $props();
   let paused = $state(true);
   let done = $state(false); // for timeUp
   let audio;
@@ -16,11 +16,9 @@
   // countdown logic
   $effect(() => {
       if (!paused && timer > -1) { // countdown past 0 to eval done
-      
         const interval = window.setInterval(() => {
           timer -= 125; // remove 1/4 a second
         }, 125); // for every 1/4 a second
-
         return () => clearInterval(interval);
       }
     });
@@ -35,54 +33,53 @@
     }
   });
 
-  //If time was added but it ended, it is labeled as not done
-  $effect(()=> { if(done && timer > 0) {done = false} });
-
-  //Adds 5 minutes back to the timer.
-  function timeAdd() {
-    timer += 300000;
-
-    if (timer > 0) {done = false;}
-  }
-
+  // effects for ending and resetting countdown
+  $effect(()=> { if(done) { timeUp(); paused = true} });
+  $effect(()=> { if(done && timer > 0) {done = !done} });
 </script>
 
-<div>
   <!-- cant remember which style so keeping both for now -->
   <!-- <div class="flex flex-col"> -->
   <!--   <h1>{msToHr(timer)}:{msToMin(timer)}:{msToSec(timer)}</h1> -->
   <!-- </div> -->
 
+
+<div class="justify-center content-center text-center">
   <div class="timer_outline">
     <p>{msToHr(timer)}:{msToMin(timer)}:{msToSec(timer)}</p>
   </div>
-
-  <button onclick={() => paused = !paused} class="custom_button">
+  <button onclick={paused = !paused} class="custom_button">
     {#if paused}
       Resume
     {:else }
       Pause
-    {/if}  
+    {/if}
   </button>
-
   {#if paused}
     <button onclick={timeAdd} class="custom_button">Add Time</button>
   {/if}
 </div>
 
 
+
 <style>
   .timer_outline {
-  outline-style: solid;
-  font-size: var(--text-7xl);
-  border-radius: var(--radius-lg);
-  margin: calc(var(--spacing) * 3);
+    outline-style: solid;
+    border-radius: var(--radius-lg);
+    box-shadow: 8px_8px_0px_0px_#000;
+    margin: calc(var(--spacing) * 2);
+    background-color: var(--color-white); 
+    font-size: var(--text-7xl);
+    text-align: center;
   }
 
   .custom_button{
-  border-radius: var(--radius-lg);
-  outline-style: solid;
-  margin: calc(var(--spacing) * 2);
+    outline-style: solid;
+    border-radius: var(--radius-lg);
+    box-shadow: 1px_1px_0px_0px_#000;
+    margin: calc(var(--spacing) * 4);
+    background-color: var(--color-white); 
+    font-size: var(--text-2xl);
   }
 
 </style>
