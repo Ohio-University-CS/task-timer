@@ -3,6 +3,8 @@
 	import logo from '$lib/assets/coffee.jpg';
 	import Nav from '$lib/Navbar.svelte';
 
+	export const prerender = true;
+
 	let { children } = $props();
 </script>
 
