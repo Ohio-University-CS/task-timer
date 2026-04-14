@@ -32,13 +32,6 @@ jobs:
           # npm version writes package.json and creates a git tag
           NEW_VERSION=$(npm version ${{ inputs.version_bump }} --no-git-tag-version)
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-      
-      - name: Build
-        run: npm run build 
-
-      - name: Package build output
-        run: |
-          tar -czf release-${{ steps.version.outputs.version }}.tar.gz build/
 
       - name: Commit & push version bump
         run: |
