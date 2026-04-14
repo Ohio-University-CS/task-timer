@@ -1,4 +1,4 @@
-name: appReleaser
+name: Release App
 
 on:
   workflow_dispatch:
