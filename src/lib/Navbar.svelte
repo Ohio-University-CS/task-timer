@@ -1,6 +1,8 @@
 <script>
 	import NavItem from './NavbarItem.svelte';
 	import logo from '$lib/assets/coffee.jpg'
+
+	let { loggedIn } = $props();
 </script>
 
 <div class="flex flex-row items-center justify-between p-1.5 border-b border-b-gray-500 fixed top-0 left-0 right-0 z-50">
@@ -13,5 +15,12 @@
 		<NavItem href="/settings" text="Settings"></NavItem>
 	</div>
 
-	<NavItem href="/sign-up" text="Sign Up" class="flex-1 justify-end"></NavItem>
+	{#if !loggedIn}
+		<NavItem href="/sign-up" text="Sign Up" class="flex-1 justify-end"></NavItem>
+	{:else}
+		<NavItem href="/settings" text="Profile" class="flex-1 justify-end"></NavItem>
+	{/if}
+
+
+	
 </div>
