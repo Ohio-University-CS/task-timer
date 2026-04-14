@@ -27,11 +27,11 @@ jobs:
         run: npm ci
 
       - name: Bump version
-          id: version
-          run: |
-            # npm version writes package.json and creates a git tag
-            NEW_VERSION=$(npm version ${{ inputs.bump }} --no-git-tag-version)
-            echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+        id: version
+        run: |
+          # npm version writes package.json and creates a git tag
+          NEW_VERSION=$(npm version ${{ inputs.bump }} --no-git-tag-version)
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
       
       - name: Build
         run: npm build 
