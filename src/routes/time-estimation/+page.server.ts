@@ -1,7 +1,6 @@
 import type { Actions } from "./$types";
 import { PDFParse } from "pdf-parse";
 
-// Shut the fuck up
 const originalWarn = console.warn;
 const originalError = console.error;
 
