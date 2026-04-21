@@ -8,7 +8,7 @@
   import "./layout.css"
 
   let { data, children } = $props()
-  let session = $derived(data.session)
+  let user = $derived(data.user)
 
   const supabase = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_PUBLISHABLE_KEY)
   setContext('supabase', supabase)
@@ -23,7 +23,7 @@
 
 <svelte:head><link rel="icon" href={logo} /></svelte:head>
 
-<Nav loggedIn={session ? true : false}></Nav>
+<Nav loggedIn={user ? true : false}></Nav>
 
 <div class="flex w-screen h-screen justify-center items-center bg-gray-100">
 	{@render children()}
