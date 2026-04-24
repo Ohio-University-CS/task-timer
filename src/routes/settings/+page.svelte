@@ -6,6 +6,7 @@
 
 
 <script>
+	import { goto } from '$app/navigation';
     import Option from '$lib/Option.svelte';
     import { logOut } from '$lib/supabaseFunctions.js';
     import { getContext } from 'svelte';
@@ -17,7 +18,7 @@
 
     let accountSettingFunctions = [() => console.log("Profile"), 
                                 () => console.log("Security"), 
-                                () => logOut(supabase)];
+                                async () => {await logOut(supabase); goto("/")}];
 
     let accessibilitySettingFunctions = [() => console.log("Dark Mode"), 
                                         () => console.log("Military Time")];

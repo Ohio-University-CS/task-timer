@@ -14,9 +14,9 @@
     <div class="flex flex-row justify-between w-full">
         {optionName}
 
-        <button class="cursor-pointer" onclick={toggleDropdown}>&#8615;</button>
+        <!-- <button class="cursor-pointer" onclick={toggleDropdown}>&#8615;</button> -->
     </div>
-    {#if showDropdown}
+    {#if true}
 
         <SubList {options} {optionFunctions} />
 
