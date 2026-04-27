@@ -1,49 +1,64 @@
 <script>
-	//Randomly chosen initial values
+	//Initial personal values
 	let weight = 120;
-	let selectedTask = "Task1";
-	let selectedIntake = "Coffee";
+	let avgIntake = null;
+
+	//Values to calculate caffeine needed
+	let habitMult = 1.0;
 	let caffeineNeeded = 0;
 	let cupsOfDrink = 0;
 
-	//No use for this yet, but it is being updated
-	let avgIntake = null;
-
-	//NEED TO MAKE AN (AI?) ALGORITHM FOR THE MULT CALCULATION BASED OFF OF LABEL
+	//Finds the user's tasks and sets it to the first one available
 	let tasks = [
 		{ title: "Task1", label: "Task 1", mult: 1.5 },
 		{ title: "Task2", label: "Task 2", mult: 3 },
 		{ title: "Task3", label: "Task 3", mult: 6 }
 	];
+	let selectedTask = tasks.at(0).title;
+
+	//Sets the intake methods and automatically selects coffee
 	let intake = [
 		{ title: "Coffee", label: "Cups of Coffee", concentration: 90 },
 		{ title: "Redbull", label: "Redbulls", concentration: 111 },
 		{ title: "Soda", label: "Cans of Soda", concentration: 40 }
 	];
+	let selectedIntake = intake.at(0).title;
 
-	//Collects the selected task
+	//Selects the active task/drink and updates if necessary
+	let activeTask = tasks.find(t => t.title === selectedTask);
 	$: activeTask = tasks.find(t => t.title === selectedTask);
+	let activeCup = intake.find(f => f.title === selectedIntake);
+	$: activeCup = intake.find(f => f.title === selectedIntake);
 
-	//Calculates caffeine needed based off of selected task (VERY SIMPLE FOR NOW)
-	$: {
+	//Calculates Caffeine
+	function calculateCaffeine() {
+		//Calculates base rate
 		if (activeTask) {
-			caffeineNeeded = Math.round(weight * activeTask.mult);
+			caffeineNeeded = weight * activeTask.mult;
 		} else {
 			caffeineNeeded = 0;
 		}
-	}
 
-	//Finds the current choice of intake
-	$: activeCup = intake.find(f => f.title === selectedIntake);
+		//Calculates tolerance level
+		if (avgIntake != null) {
+			habitMult = (1 + (Math.log10(avgIntake / 100 + 1) * 0.5));
+		} else {
+			habitMult = 1;
+		}
 
-	//Calculates how many cups of their chosen drink they would need
-	$: {
+		//Calculates caffeine required
+		caffeineNeeded = Math.round(caffeineNeeded * habitMult);
+
+		//Calculates the cups of drink needed
 		if (activeCup) {
 			cupsOfDrink = Number.parseFloat(caffeineNeeded / activeCup.concentration).toFixed(2);
 		} else {
 			cupsOfDrink = 0;
 		}
 	}
+
+	//Updates on the front end whenever these values are changed
+	$: weight, selectedTask, selectedIntake, avgIntake, calculateCaffeine();
 </script>
 
 <!-- Creates the main background color and stuff -->
