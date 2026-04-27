@@ -4,17 +4,19 @@
   import FocusedTimer from "$lib/FocusedTimer.svelte";
   import UnfocusedTimer from "$lib/UnfocusedTimer.svelte";
 
+
+  // let timer = 100000000000
   let timer = 1000
   let done = false
 
   function timeAdd() {
-    timer += 10000
-    done = false
+    done = false // also necessary
+    timer += 10000 // changing timer value here is intended. needs variable way to do this
   }
 
   function timeUp() {
-    timer = 0;
-    done = true
+    done = true // only required statement
+    // play a sound or something
   }
 
 </script>

@@ -1,6 +1,9 @@
 <script lang="js">
   // these functions format time, else read all time in ms and output in given unit
   import { msToSec, msToMin, msToHr, msToDays, msToWeeks, msToYears} from './timer_functions.svelte.js';
+  import playIcon from '$lib/assets/icons8-play-50.png'
+  import pauseIcon from '$lib/assets/icons8-pause-50.png'
+  import timerIcon from '$lib/assets/icons8-timer-64.png'
 
   // these props allow for external functions to decide timer's time, adding time mid-timer, and what to do when time is up
   let { timer, timeUp, timeAdd } = $props(); // timeAdd requires focus_timer jank
@@ -13,7 +16,6 @@
  $effect(() => {
     if (!paused && timer >= elapsed) { // countdown past 0 to eval done
       const interval = window.setInterval(() => {
-        // timer -= 125; // remove 1/4 a second
         elapsed += 125; // give it to elapsed
       }, 125); // every 1/4 a second
       if (timer <= elapsed) {done = true; paused = true} // and sets done when done
@@ -39,27 +41,36 @@
     <!-- timer is adaptive -->
     <!-- some live their whole lives without completing anything -->
     <p> 
+
       <!-- putting the if statements with content on multiple lines breaks the format -->
       <!-- years (leap years accounted for), weeks, days, and hours situational. always minutes and seconds -->
       {#if timer >= 31449600000}{msToYears(timer - elapsed)}:{/if}{#if timer >= 604800000}{msToWeeks(timer - elapsed)}:{/if}{#if timer >= 86400000} {msToDays(timer - elapsed)}:{/if}{#if timer >= 360000}{msToHr(timer - elapsed)}:{/if}{msToMin(timer - elapsed)}:{msToSec(timer - elapsed)}
       <!-- prettier please don't kill me -->
     </p>
   </div>
-  <p>timer: {timer}</p>
-  <p>elapsed: {elapsed}</p>
-  <div class="timer_buttons">
-  {#if timer > 0}
-    <button onclick={paused = !paused} class="custom_button">
-      {#if paused}
-        Resume
-      {:else }
-        Pause
-      {/if}
-    </button>
-  {/if}
-  {#if paused}
-    <button onclick={timeAdd} class="custom_button">Add Time</button>
-  {/if}
+
+  <div class="timer_buttons flex flex-row">
+    {#if timer > 0}
+      <button onclick={paused = !paused} class="custom_button">
+        {#if paused}
+          <div class="m-2 justify-center">
+            <img src={playIcon} alt="play icon" class="w-8 h-auto">
+          </div>
+        {:else }
+          <div class="m-2 justify-center">
+            <img src={pauseIcon} alt="pause icon" class="w-8 h-auto">
+          </div>
+        {/if}
+      </button>
+    {/if}
+    {#if paused}
+      <button onclick={timeAdd} class="custom_button">
+          <div class="flex flex-row text-center text-justify-middle">
+            <p class="text-3xl bold ">+</p>
+            <img src={timerIcon} alt="timer icon temp" class="w-12 h-auto">
+          </div>
+        </button>
+    {/if}
   </div>
 </div>
 
@@ -86,7 +97,8 @@
   }
 
   .timer_buttons {
-   align-content:left
+   align-content: center;
+  justify-content: middle;
   }
 
 </style>
