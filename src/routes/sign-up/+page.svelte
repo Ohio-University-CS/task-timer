@@ -39,6 +39,7 @@
 
 </script>
 
+<div class="flex h-screen w-screen items-center justify-center">
 <div class="flex flex-col items-center justify-center border-2 bg-white p-6 rounded-lg shadow-[4px_4px_0px_0px_#000] w-1/4">
     <h1 class="text-3xl font-bold mb-4">Sign Up</h1>
     <TypingBar placeholder="Email" bind:value={email} />
@@ -49,4 +50,5 @@
     {/if}
 
     <button onclick={handleSignUp}><Button text="Sign Up" /></button>
+</div>
 </div>

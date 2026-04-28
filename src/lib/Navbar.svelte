@@ -24,11 +24,12 @@
 			<NavItem href="/grade-calculator" text="Grade Calculator" selected={currentPath == "/grade-calculator"}></NavItem>
 			<NavItem href="/caffeine-calculator" text="Coffee!" selected={currentPath == "/caffeine-calculator"}></NavItem>
 			<!-- <NavItem href="/settings" text="Settings" selected={currentPath == "/settings"}></NavItem> -->
-		{/if}
-		<NavbarDropdown buttonText="Time Estimator" options={[
-			{ label: "Assignment Time Estimator", href: "/time-estimation" },
-			{ label: "Essay Time Estimator", href: "/essay-estimation" }
+			 <NavbarDropdown buttonText="Time Estimator" options={[
+				{ label: "Assignment Time Estimator", href: "/time-estimation" },
+				{ label: "Essay Time Estimator", href: "/essay-estimation" }
 		]}></NavbarDropdown>
+		{/if}
+		
 	</div>
 
 	{#if !loggedIn}
