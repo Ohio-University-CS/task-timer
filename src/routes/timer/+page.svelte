@@ -4,17 +4,19 @@
   import FocusedTimer from "$lib/FocusedTimer.svelte";
   import UnfocusedTimer from "$lib/UnfocusedTimer.svelte";
 
-  let timer = 3000
+
+  // let timer = 31449600000
+  let timer = 1000
   let done = false
 
   function timeAdd() {
-    timer += 10000
-    done = false
+    done = false // also necessary
+    timer += 10000 // changing timer value here is intended. needs variable way to do this
   }
 
   function timeUp() {
-    timer = 0;
-    done = true
+    done = true // only required statement
+    // play a sound or something
   }
 
 </script>
@@ -31,10 +33,12 @@
 
 
 <!-- the app is vertical in nature -->
-<div class="flex justify-center columns-1 bg-green-50 w-screen h-screen"> 
+<div class="flex flex-col items-center justify-center flex-nowrap"> 
   <!-- pw-3/7 -->
   {#if done}
-    <h1 class="text-9xl content-center text-center">THE TIMER IS DONE</h1>
+    <div class="flex flex-row">
+      <h1 class="text-6xl content-center text-center">THE TIMER IS DONE</h1>
+      </div>
   {/if}
   <div class="m-3 outline-hidden content-center">
   <div>
