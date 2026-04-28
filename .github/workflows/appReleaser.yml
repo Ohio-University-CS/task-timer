@@ -1,4 +1,4 @@
-name: appReleaser
+name: Release App
 
 on:
   workflow_dispatch:
@@ -27,18 +27,11 @@ jobs:
         run: npm ci
 
       - name: Bump version
-          id: version
-          run: |
-            # npm version writes package.json and creates a git tag
-            NEW_VERSION=$(npm version ${{ inputs.bump }} --no-git-tag-version)
-            echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-      
-      - name: Build
-        run: npm build 
-
-      - name: Package build output
+        id: version
         run: |
-          tar -czf release-${{ steps.version.outputs.version }}.tar.gz build/
+          # npm version writes package.json and creates a git tag
+          NEW_VERSION=$(npm version ${{ inputs.version_bump }} --no-git-tag-version)
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Commit & push version bump
         run: |

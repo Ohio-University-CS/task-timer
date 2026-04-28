@@ -1,49 +1,60 @@
 <script>
-	//Randomly chosen initial values
-	let weight = 120;
-	let selectedTask = "Task1";
-	let selectedIntake = "Coffee";
-	let caffeineNeeded = 0;
-	let cupsOfDrink = 0;
+	import { derived } from 'svelte/store';
 
-	//No use for this yet, but it is being updated
-	let avgIntake = null;
+	//Initial personal values
+	let weight = $state(120);
+	let avgIntake = $state(null);
 
-	//NEED TO MAKE AN (AI?) ALGORITHM FOR THE MULT CALCULATION BASED OFF OF LABEL
+	//Finds the user's tasks and sets it to the first one available
 	let tasks = [
 		{ title: "Task1", label: "Task 1", mult: 1.5 },
 		{ title: "Task2", label: "Task 2", mult: 3 },
 		{ title: "Task3", label: "Task 3", mult: 6 }
 	];
+	let selectedTask = $derived(tasks.at(0).title);
+
+	//Sets the intake methods and automatically selects coffee
 	let intake = [
 		{ title: "Coffee", label: "Cups of Coffee", concentration: 90 },
-		{ title: "Redbull", label: "Redbulls", concentration: 111 },
+		{ title: "RedBull", label: "RedBulls", concentration: 111 },
 		{ title: "Soda", label: "Cans of Soda", concentration: 40 }
 	];
+	let selectedIntake = $derived(intake.at(0).title);
 
-	//Collects the selected task
-	$: activeTask = tasks.find(t => t.title === selectedTask);
+	//Finds the current active task and intake choice
+	let activeTask = $derived(tasks.find(t => t.title === selectedTask));
+	let activeCup = $derived(intake.find(f => f.title === selectedIntake));
 
-	//Calculates caffeine needed based off of selected task (VERY SIMPLE FOR NOW)
-	$: {
+	//Calculates initial caffeine/drinks needed
+	let caffeineNeeded = $derived(weight * activeTask.mult);
+	let cupsOfDrink = $derived(Number.parseFloat(caffeineNeeded / activeCup.concentration).toFixed(2));
+
+	//Calculates Caffeine
+	$effect(()  => {
+		let needed = 0;
+
+		//Calculates base rate
 		if (activeTask) {
-			caffeineNeeded = Math.round(weight * activeTask.mult);
+			needed = weight * activeTask.mult;
 		} else {
-			caffeineNeeded = 0;
+			needed = 0;
 		}
-	}
 
-	//Finds the current choice of intake
-	$: activeCup = intake.find(f => f.title === selectedIntake);
+		//Calculates tolerance level
+		if (avgIntake != null) {
+			caffeineNeeded = Math.round(needed * (1 + (Math.log10(avgIntake / 100 + 1) * 0.5)));
+		} else {
+			caffeineNeeded = Math.round(needed);
+		}
+	});
 
-	//Calculates how many cups of their chosen drink they would need
-	$: {
+	$effect(() => {
 		if (activeCup) {
 			cupsOfDrink = Number.parseFloat(caffeineNeeded / activeCup.concentration).toFixed(2);
 		} else {
 			cupsOfDrink = 0;
 		}
-	}
+	});
 </script>
 
 <!-- Creates the main background color and stuff -->
@@ -120,7 +131,7 @@
 			<!-- The actual calculated amount of caffeine needed. I just have a simple weight * mult factor right now -->
 			<div class="text-5xl font-black text-white tracking-tighter">{caffeineNeeded}<span class="text-xl font-light ml-1 text-amber-400/80 uppercase">mg</span></div>
 
-			<div class="text-sm font-black text-amber-400">{cupsOfDrink}<span class="text-xs text-stone-300 pl-1">{activeCup.label}</span></div>
+			<div class="text-sm font-black text-amber-400">{cupsOfDrink}<span class="text-xs text-stone-300 pl-1">{activeCup?.label}</span></div>
 
 		</div>
 
