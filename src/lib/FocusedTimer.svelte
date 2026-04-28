@@ -8,7 +8,7 @@
 
 
   // need to make props into single json to destruct
-  let {timer, timeUp, timeAdd, name, dueMonth = 0, dueDay = 0, dueYear = 0, desc = "", extensions = 0, totalTime = 0, initTime = timer, completed = false} = $props()
+  let {timer, timeUp, timeAdd, name, dueMonth = 0, dueDay = 0, dueYear = 0, desc = "", extensions = 0, totalTime = 0, initTime = timer, completed = false, } = $props()
   // need to add buttons for edit, delete, and checkbox functionality
   // need to add draggable element library for the draggable bars
   // apparently sound works for timer so pass that too
