@@ -1,6 +1,7 @@
 <script>
 	import NavItem from './NavbarItem.svelte';
-	import logo from '$lib/assets/coffee.jpg'
+	import NavbarDropdown from './NavbarDropdown.svelte';
+	import logo from '$lib/assets/coffee.jpg';
   	import { page } from '$app/state';
 
 	let { loggedIn } = $props();
@@ -24,6 +25,10 @@
 			<NavItem href="/caffeine-calculator" text="Coffee!" selected={currentPath == "/caffeine-calculator"}></NavItem>
 			<!-- <NavItem href="/settings" text="Settings" selected={currentPath == "/settings"}></NavItem> -->
 		{/if}
+		<NavbarDropdown buttonText="Time Estimator" options={[
+			{ label: "Assignment Time Estimator", href: "/time-estimation" },
+			{ label: "Essay Time Estimator", href: "/essay-estimation" }
+		]}></NavbarDropdown>
 	</div>
 
 	{#if !loggedIn}
