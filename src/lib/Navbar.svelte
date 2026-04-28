@@ -1,6 +1,7 @@
 <script>
 	import NavItem from './NavbarItem.svelte';
-	import logo from '$lib/assets/coffee.jpg'
+	import NavbarDropdown from './NavbarDropdown.svelte';
+	import logo from '$lib/assets/coffee.jpg';
 </script>
 
 <div class="flex flex-row items-center justify-between p-1.5 border-b border-b-gray-500 fixed top-0 left-0 right-0 z-50">
@@ -11,6 +12,10 @@
 		<NavItem href="/grade-calculator" text="Grade Calculator"></NavItem>
 		<NavItem href="/caffeine-calculator" text="Coffee!"></NavItem>
 		<NavItem href="/settings" text="Settings"></NavItem>
+		<NavbarDropdown buttonText="Time Estimator" options={[
+			{ label: "Assignment Time Estimator", href: "/time-estimation" },
+			{ label: "Essay Time Estimator", href: "/essay-estimation" }
+		]}></NavbarDropdown>
 	</div>
 
 	<NavItem href="/sign-up" text="Sign Up" class="flex-1 justify-end"></NavItem>
