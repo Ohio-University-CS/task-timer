@@ -5,7 +5,7 @@
   import UnfocusedTimer from "$lib/UnfocusedTimer.svelte";
 
 
-  // let timer = 100000000000
+  // let timer = 31449600000
   let timer = 1000
   let done = false
 
@@ -33,10 +33,12 @@
 
 
 <!-- the app is vertical in nature -->
-<main class="flex justify-center columns-1"> 
+<main class="flex flex-col items-center justify-center flex-nowrap"> 
   <!-- pw-3/7 -->
   {#if done}
-    <h1 class="text-9xl content-center text-center">THE TIMER IS DONE</h1>
+    <div class="flex flex-row">
+      <h1 class="text-6xl content-center text-center">THE TIMER IS DONE</h1>
+      </div>
   {/if}
   <div class="m-3 outline-hidden content-center">
   <div>

@@ -17,10 +17,10 @@
 </script>
 
 <!-- whole thing is flex row -->
-<div class="flex flex-row flex-wrap"> 
+<div class="flex flex-row flex-nowrap w-200"> 
 
   <!-- card is a flex row -->
-  <div class="flex flex-row focusedCard flex-nowrap shadow-[4px_4px_0px_0px_#000]">
+  <div class="flex flex-row justify-center focusedCard flex-nowrap shadow-[4px_4px_0px_0px_#000]">
 
     <!-- timer is a flex col -->
     <div class="m-2 outline-hidden flex flex-col">
@@ -50,16 +50,22 @@
       {/if}
     </div>
   </div>
-  <!-- crud buttons -->
-  <div class="flex flex-col items-center justify-center">
-    <Checkbox bind:checked></Checkbox>
-    <button onclick={editMenu} class="custom_button ">
-      <img src={pencilIcon} alt="edit icon" class="w-12 h-auto">
-    </button>
 
-    <button onclick={editMenu} class="custom_button ">
-      <img src={trashIcon} alt="delete icon" class="w-12 h-auto">
-    </button>
+  <!-- crud buttons column -->
+  <div class="flex flex-col items-center-safe justify-center items-start">
+    <div class="items-center items-center w-11">
+      <Checkbox bind:checked></Checkbox>
+    </div>
+    <div class>
+      <button onclick={editMenu} class="focusedFloaters cursor-pointer">
+        <img src={pencilIcon} alt="edit icon" class="w-7 h-auto m-2">
+      </button>
+    </div>
+    <div class="flex flex-row">
+      <button onclick={editMenu} class="focusedFloaters cursor-pointer">
+        <img src={trashIcon} alt="delete icon" class="w-7 h-auto m-2">
+      </button>
+    </div>
   </div>
 </div>
 
@@ -82,17 +88,14 @@
   }
 
 .focusedFloaters {
+
   margin: calc(var(--spacing) * 2); 
   border: solid;
   border-width: 1px;
-  }
-
-.custom_button {
-  outline-style: solid;
   border-radius: var(--radius-lg);
-  box-shadow: 1px_1px_0px_0px_#000;
-  margin: calc(var(--spacing) * 4);
-  background-color: var(--color-white); 
   font-size: var(--text-2xl);
+  outline-style: solid;
+  background-color: var(--color-white); 
+  box-shadow: 1px_1px_0px_0px_#000;
   }
 </style>

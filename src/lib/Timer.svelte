@@ -1,6 +1,8 @@
 <script lang="js">
   // these functions format time, else read all time in ms and output in given unit
   import { msToSec, msToMin, msToHr, msToDays, msToWeeks, msToYears} from './timer_functions.svelte.js';
+
+  // icons for buttons
   import playIcon from '$lib/assets/icons8-play-50.png'
   import pauseIcon from '$lib/assets/icons8-pause-50.png'
   import timerIcon from '$lib/assets/icons8-timer-64.png'
@@ -44,7 +46,7 @@
 
       <!-- putting the if statements with content on multiple lines breaks the format -->
       <!-- years (leap years accounted for), weeks, days, and hours situational. always minutes and seconds -->
-      {#if timer >= 31449600000}{msToYears(timer - elapsed)}:{/if}{#if timer >= 604800000}{msToWeeks(timer - elapsed)}:{/if}{#if timer >= 86400000} {msToDays(timer - elapsed)}:{/if}{#if timer >= 360000}{msToHr(timer - elapsed)}:{/if}{msToMin(timer - elapsed)}:{msToSec(timer - elapsed)}
+      {#if timer >= 31449600000}{msToYears(timer - elapsed)}:{/if}{#if timer >= 604800000}{msToWeeks(timer - elapsed)}:{/if}{#if timer >= 86400000} {msToDays(timer - elapsed)}:{/if}{#if timer >= 3600000}{msToHr(timer - elapsed)}:{/if}{msToMin(timer - elapsed)}:{msToSec(timer - elapsed)}
       <!-- prettier please don't kill me -->
     </p>
   </div>
@@ -63,13 +65,14 @@
         {/if}
       </button>
     {/if}
+
     {#if paused}
       <button onclick={timeAdd} class="custom_button">
-          <div class="flex flex-row text-center text-justify-middle">
-            <p class="text-3xl bold ">+</p>
-            <img src={timerIcon} alt="timer icon temp" class="w-12 h-auto">
-          </div>
-        </button>
+        <div class="flex flex-row text-center text-justify-middle">
+          <p class="text-3xl bold ">+</p>
+          <img src={timerIcon} alt="timer icon temp" class="w-12 h-auto">
+        </div>
+      </button>
     {/if}
   </div>
 </div>
@@ -88,6 +91,7 @@
   }
 
   .custom_button {
+    cursor: pointer;
     outline-style: solid;
     border-radius: var(--radius-lg);
     box-shadow: 1px_1px_0px_0px_#000;
