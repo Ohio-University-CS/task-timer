@@ -33,9 +33,9 @@
 
 <div class="flex flex-col items-center justify-center p-4 pt-20 bg-amber-50 w-full min-h-screen">
 <!-- Add options here -->
-    <div class="flex flex-col p-4 border-2 bg-white rounded-2xl">
+    <div class="flex flex-col p-4 border-2 bg-white rounded-2xl shadow-[4px_4px_0px_0px_#000]">
         <Option optionName="Account Settings" options={accountSettings} optionFunctions={accountSettingFunctions} />
         <Option optionName="Accessibility" options={accessibilitySettings} optionFunctions={accessibilitySettingFunctions} />
     </div>
-    
+
 </div>
