@@ -1,17 +1,30 @@
 <script>
 	import { derived } from 'svelte/store';
+	import { getContext } from 'svelte'
+	import { getTasks } from '$lib/db/tasks'
+
+	//Database
+	const supabase = getContext('supabase')
 
 	//Initial personal values
 	let weight = $state(120);
 	let avgIntake = $state(null);
 
 	//Finds the user's tasks and sets it to the first one available
+	/**
+	let tasks = $state([]);
+	$effect(() => {
+		supabase.auth.getUser().then(({ data: { user } }) => {
+			if (user) getTasks(supabase, user.id).then(t => tasks = t)
+		})
+	});
+	*/
 	let tasks = [
-		{ title: "Task1", label: "Task 1", mult: 1.5 },
-		{ title: "Task2", label: "Task 2", mult: 3 },
-		{ title: "Task3", label: "Task 3", mult: 6 }
+		{ id: "Task1", title: "Task 1", mult: 1.5 },
+		{ id: "Task2", title: "Task 2", mult: 3 },
+		{ id: "Task3", title: "Task 3", mult: 6 }
 	];
-	let selectedTask = $derived(tasks.at(0).title);
+	let selectedTask = $derived(tasks.at(0).id);
 
 	//Sets the intake methods and automatically selects coffee
 	let intake = [
@@ -22,7 +35,7 @@
 	let selectedIntake = $derived(intake.at(0).title);
 
 	//Finds the current active task and intake choice
-	let activeTask = $derived(tasks.find(t => t.title === selectedTask));
+	let activeTask = $derived(tasks.find(t => t.id === selectedTask));
 	let activeCup = $derived(intake.find(f => f.title === selectedIntake));
 
 	//Calculates initial caffeine/drinks needed
@@ -94,7 +107,7 @@
 				<div class="relative">
 					<select id="task-select" bind:value={selectedTask} class="w-full p-3 bg-white/5 border border-white/10 rounded-lg appearance-none focus:outline-none dark:text-white text-stone-600 text-sm font-medium transition-all dark:shadow-[4px_4px_0px_0px_#4a3b28] shadow-[4px_4px_0px_0px_#c4a484]">
 						{#each tasks as task}
-							<option value={task.title} class="bg-[#4a3b28] text-white">{task.label} : {task.mult} mg/lb</option>
+							<option value={task.id} class="bg-[#4a3b28] text-white">{task.title} : {task.mult} mg/lb</option>
 						{/each}
 					</select>
 				</div>
