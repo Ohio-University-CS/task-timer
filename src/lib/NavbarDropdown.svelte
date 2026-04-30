@@ -1,13 +1,14 @@
 <script>
     import { goto } from '$app/navigation';
 	import Button from '$lib/Button.svelte';
+    import NavItem from './NavbarItem.svelte';
 
     /* Pass options as an object. For example:
        options={[
         { label: "Caffeine Calculator", href: "/caffeiene-calculator" },
         { label: "Grade Calculator", href: "/grade-calculator" }
        ]} */
-	let { buttonText, options, bg_color = "white", font = "sans", text_size = "sm" } = $props();
+	let { selected, buttonText, options, bg_color = "white", font = "sans", text_size = "sm" } = $props();
     let showDropdown = $state(false);
 
     function toggleDropdown()
@@ -17,11 +18,9 @@
 
 </script>
 
-<div>
-    <div class="relative">
-        <button onclick={toggleDropdown}>
-            <Button text={buttonText}></Button>
-        </button>
+
+    <div class="relative flex items-center h-full">
+        <button onclick={toggleDropdown} class="cursor-pointer" ><NavItem text={buttonText} bind:selected={selected}></NavItem></button>
 
         {#if showDropdown}
             <div class="absolute left-0 top-full w-full z-50 bg-white">
@@ -40,4 +39,3 @@
             </div>
         {/if}
     </div>
-</div>
