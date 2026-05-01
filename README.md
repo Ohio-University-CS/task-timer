@@ -1,5 +1,5 @@
 ## Task Timer App!
-This app allows you to create tasks with a timer to help organize your day-to-day life!\
+This app allows you to create tasks with a timer to help organize your day-to-day life!
 
 https://github.com/user-attachments/assets/5f409377-9c6b-4348-8f3c-ad8559f2d59a
 
